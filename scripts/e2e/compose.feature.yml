@@ -1,0 +1,18 @@
+# Isolated feature E2E project only. Invoke with -p smes-feature-e2e and
+# MYSQL_DATABASE=smes_feature_e2e. Never attach to the production volume.
+services:
+  mysql:
+    container_name: smes-feature-e2e-mysql
+  redis:
+    container_name: smes-feature-e2e-redis
+  rabbitmq:
+    container_name: smes-feature-e2e-rabbitmq
+  api:
+    container_name: smes-feature-e2e-api
+    environment:
+      Seed__DemoEnabled: "false"
+      Seed__IndustryScenariosEnabled: "true"
+    ports:
+      - "127.0.0.1:5099:8080"
+  web:
+    container_name: smes-feature-e2e-web

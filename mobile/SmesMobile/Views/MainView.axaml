@@ -1,0 +1,521 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SmesMobile.ViewModels"
+             mc:Ignorable="d"
+             d:DesignWidth="430" d:DesignHeight="900"
+             x:Class="SmesMobile.Views.MainView"
+             x:DataType="vm:MainViewModel"
+             Background="{StaticResource PageBrush}">
+  <UserControl.Resources>
+    <SolidColorBrush x:Key="PageBrush" Color="#F3F6FB" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#1769E0" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#EAF2FF" />
+    <SolidColorBrush x:Key="TextBrush" Color="#14243A" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#66758A" />
+    <SolidColorBrush x:Key="LineBrush" Color="#E2E9F2" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#188A64" />
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+      <Setter Property="FontFamily" Value="Inter" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+    </Style>
+    <Style Selector="TextBlock.section-title">
+      <Setter Property="FontSize" Value="21" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="TextBlock.card-title">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.eyebrow">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="20" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="MinHeight" Value="48" />
+      <Setter Property="Padding" Value="14,10" />
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="MinHeight" Value="52" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="AutoCompleteBox">
+      <Setter Property="MinHeight" Value="52" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem">
+      <Setter Property="MinHeight" Value="44" />
+      <Setter Property="Padding" Value="14,9" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+      <Setter Property="Background" Value="{StaticResource PageBrush}" />
+      <Setter Property="CornerRadius" Value="12" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem:selected">
+      <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem:selected TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="MinHeight" Value="44" />
+      <Setter Property="Padding" Value="16,10" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+    <Style Selector="Button.secondary">
+      <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+  </UserControl.Styles>
+
+  <ScrollViewer Background="{StaticResource PageBrush}">
+    <StackPanel Margin="18,14,18,30" Spacing="14">
+      <!-- Brand header -->
+      <Grid IsVisible="{Binding IsLoggedOut}" ColumnDefinitions="54,*" Margin="2,2,2,4">
+        <Border Width="46" Height="46" CornerRadius="15" Background="{StaticResource AccentBrush}"
+                HorizontalAlignment="Left" VerticalAlignment="Center">
+          <TextBlock Text="S" Foreground="#FFFFFF" FontSize="26" FontWeight="Bold"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+          <TextBlock Text="SMES" FontSize="21" FontWeight="Bold" />
+          <TextBlock Text="制造现场 · 移动工作台" Classes="muted" FontSize="12" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Sign-in -->
+      <Border IsVisible="{Binding IsLoggedOut}" Classes="card" Padding="20">
+        <StackPanel Spacing="12">
+          <StackPanel Spacing="4" Margin="0,0,0,4">
+            <TextBlock Text="欢迎回来" Classes="section-title" />
+            <TextBlock Text="登录后按你的岗位权限显示现场任务。" Classes="muted" TextWrapping="Wrap" />
+          </StackPanel>
+          <Expander Header="连接设置 · 服务地址与租户" IsExpanded="False">
+            <StackPanel Spacing="9" Margin="0,8,0,4">
+              <TextBlock Text="服务地址" Classes="eyebrow" />
+              <TextBox Text="{Binding ServerBaseUrl}" PlaceholderText="https://smes.example.com/api" />
+              <TextBlock Text="USB 调试可用本机回环；局域网地址要求手机与电脑处于同一网络。"
+                         Classes="muted" FontSize="12" TextWrapping="Wrap" />
+              <TextBlock Text="租户代码" Classes="eyebrow" />
+              <TextBox Text="{Binding TenantCode}" PlaceholderText="输入租户代码" />
+            </StackPanel>
+          </Expander>
+          <TextBlock Text="{Binding ConnectionSummary}" Classes="muted" FontSize="12"
+                     TextTrimming="CharacterEllipsis" />
+          <StackPanel Spacing="5">
+            <TextBlock Text="账号" Classes="eyebrow" />
+            <TextBox Text="{Binding Username}" PlaceholderText="输入账号" />
+          </StackPanel>
+          <StackPanel Spacing="5">
+            <TextBlock Text="密码" Classes="eyebrow" />
+            <TextBox Text="{Binding Password, Mode=TwoWay}" PasswordChar="●" PlaceholderText="输入密码" />
+          </StackPanel>
+          <Button Content="登录工作台" Command="{Binding SignInCommand}" MinHeight="50"
+                  HorizontalAlignment="Stretch" Margin="0,4,0,0" />
+          <TextBlock Text="访问令牌只保存在内存中；离线队列仅保存业务命令。"
+                     Classes="muted" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+
+      <!-- Signed-in account -->
+      <Border IsVisible="{Binding IsLoggedIn}" Classes="card" Padding="12">
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="6">
+          <TextBlock Text="{Binding CurrentUserDisplay}" FontSize="15" FontWeight="Bold"
+                     TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+          <TextBlock Grid.Row="1" Text="{Binding CurrentRolesText, StringFormat='角色：{0}'}"
+                     Classes="muted" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" Grid.RowSpan="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+            <Button Content="同步" Classes="secondary" Command="{Binding SyncQueueCommand}" MinHeight="40" Padding="10,6" />
+            <Button Content="退出" Classes="secondary" Command="{Binding LogoutCommand}" MinHeight="40" Padding="10,6" />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!-- Server-authorized navigation -->
+      <Border IsVisible="{Binding IsLoggedIn}" Classes="card" Padding="12,8,6,4">
+        <Grid ColumnDefinitions="*,38" ColumnSpacing="4">
+          <ScrollViewer x:Name="MenuScroller" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+            <ListBox Classes="nav" ItemsSource="{Binding Menus}" SelectedItem="{Binding SelectedMenu}"
+                     Background="Transparent" BorderThickness="0" Padding="0">
+              <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ListBox.ItemsPanel>
+              <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" FontWeight="SemiBold" /></DataTemplate></ListBox.ItemTemplate>
+            </ListBox>
+          </ScrollViewer>
+          <Button Grid.Column="1" Content="›" Classes="secondary" MinHeight="44" MinWidth="38"
+                  HorizontalAlignment="Stretch" FontSize="22" Padding="0" Click="ScrollMenuRight" />
+        </Grid>
+      </Border>
+
+      <Border IsVisible="{Binding HasNoMobilePages}" Classes="card" Padding="16">
+        <StackPanel Spacing="6">
+          <TextBlock Text="暂未分配移动页面" Classes="card-title" />
+          <TextBlock Text="请管理员在角色管理中，为你的角色分配生产、检验或设备维护菜单。"
+                     Classes="muted" TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+
+      <!-- Live status -->
+      <Border IsVisible="{Binding ShowStatusMessage}" Padding="13,11" CornerRadius="14" Background="{StaticResource AccentSoftBrush}"
+              BorderBrush="#D4E4FF" BorderThickness="1">
+        <Grid ColumnDefinitions="8,*" ColumnSpacing="10">
+          <Border Width="8" Height="8" CornerRadius="4" Background="{StaticResource AccentBrush}"
+                  VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="{Binding StatusMessage}" TextWrapping="Wrap" FontSize="12" />
+        </Grid>
+      </Border>
+
+      <!-- Production orders and reporting -->
+      <StackPanel IsVisible="{Binding IsProductionPage}" Spacing="12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="2">
+            <TextBlock Text="生产执行" Classes="section-title" />
+            <TextBlock Text="工单进度与现场报工" Classes="muted" />
+          </StackPanel>
+          <Button Grid.Column="1" Content="刷新" Classes="secondary"
+                  Command="{Binding RefreshCurrentPageCommand}" VerticalAlignment="Center" />
+        </Grid>
+        <Border IsVisible="{Binding IsWorkOrdersPage}" Classes="card" Padding="15">
+          <StackPanel Spacing="10">
+            <TextBlock Text="工单列表" Classes="card-title" />
+            <ListBox ItemsSource="{Binding WorkOrders}" SelectedItem="{Binding SelectedWorkOrder}"
+                     MaxHeight="230" Background="Transparent" BorderThickness="0" Padding="0">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border Background="#F7F9FC" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                          CornerRadius="14" Padding="13" Margin="0,0,0,7">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                      <TextBlock Text="{Binding Code}" FontWeight="Bold" FontSize="14" />
+                      <TextBlock Grid.Column="1" Text="{Binding Id, StringFormat='#{0}'}"
+                                 Classes="muted" FontSize="12" />
+                      <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Name}"
+                                 TextWrapping="Wrap" Margin="0,4,0,6" />
+                      <TextBlock Grid.Row="2" Text="{Binding Qty, StringFormat='计划 {0}'}"
+                                 Classes="muted" FontSize="12" />
+                      <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CompletedQty, StringFormat='已完成 {0}'}"
+                                 Foreground="{StaticResource SuccessBrush}" FontSize="12" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding SelectedWorkOrderLabel}" Classes="muted" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+
+        <Border IsVisible="{Binding IsOperationReportPage}" Classes="card" Padding="16">
+          <StackPanel Spacing="10">
+            <StackPanel Spacing="3">
+              <TextBlock Text="工序报工" Classes="card-title" />
+              <TextBlock Text="保存后进入可靠队列，并按任务状态与服务端对账。"
+                         Classes="muted" FontSize="12" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Spacing="4">
+              <TextBlock Text="生产工单" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding SelectableWorkOrders}" SelectedItem="{Binding SelectedWorkOrder}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索工单号或名称">
+                              <AutoCompleteBox.ItemTemplate><DataTemplate><StackPanel><TextBlock Text="{Binding Code}" FontWeight="SemiBold"/><TextBlock Text="{Binding Name}" Classes="muted" FontSize="12"/></StackPanel></DataTemplate></AutoCompleteBox.ItemTemplate>
+                            </AutoCompleteBox>
+            </StackPanel>
+            <TextBlock Text="{Binding SelectedWorkOrderLabel}" Classes="muted" TextWrapping="Wrap" />
+            <TextBlock Text="输入工单号或名称检索，并从候选结果中点选。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+            <StackPanel Spacing="5">
+              <TextBlock Text="工序（选填）" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding ReportProcessOptions}" SelectedItem="{Binding SelectedReportProcess}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索工序">
+                <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+              </AutoCompleteBox>
+            </StackPanel>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+              <StackPanel Spacing="5"><TextBlock Text="报工数量" Classes="muted" FontSize="12"/><TextBox Text="{Binding ReportQtyText}" PlaceholderText="输入数量"/></StackPanel>
+              <StackPanel Grid.Column="1" Spacing="5"><TextBlock Text="不良数量" Classes="muted" FontSize="12"/><TextBox Text="{Binding ReportDefectQtyText}" PlaceholderText="无不良填 0"/></StackPanel>
+            </Grid>
+            <Border Background="{StaticResource AccentSoftBrush}" CornerRadius="12" Padding="12,10">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <TextBlock Text="合格数量" Classes="muted" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding ReportQualifiedQtyPreview}" FontWeight="SemiBold" TextWrapping="Wrap" />
+              </Grid>
+            </Border>
+            <StackPanel Spacing="5">
+              <TextBlock Text="不良项目（选填）" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding DefectOptions}" SelectedItem="{Binding SelectedReportDefect}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索不良项目">
+                <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+              </AutoCompleteBox>
+            </StackPanel>
+            <TextBox Text="{Binding ReportHoursText}" PlaceholderText="本次工时（小时，默认 0）" />
+            <TextBox Text="{Binding ReportRemark}" PlaceholderText="备注（选填）" />
+            <Button Content="保存并提交报工" Command="{Binding QueueWorkReportCommand}" IsEnabled="{Binding CanSubmitReport}" MinHeight="50" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Material issue -->
+      <StackPanel IsVisible="{Binding IsMaterialIssuePage}" Spacing="12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="2"><TextBlock Text="生产领料" Classes="section-title"/><TextBlock Text="先选择工单和对应物料行" Classes="muted"/></StackPanel>
+          <Button Grid.Column="1" Content="刷新工单" Classes="secondary" Command="{Binding RefreshCurrentPageCommand}" VerticalAlignment="Center" />
+        </Grid>
+        <Border Classes="card" Padding="15">
+          <StackPanel Spacing="8">
+            <TextBlock Text="工单" Classes="card-title" />
+            <AutoCompleteBox ItemsSource="{Binding SelectableWorkOrders}" SelectedItem="{Binding SelectedWorkOrder}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索工单号或名称">
+                          <AutoCompleteBox.ItemTemplate><DataTemplate><StackPanel><TextBlock Text="{Binding Code}" FontWeight="SemiBold"/><TextBlock Text="{Binding Name}" Classes="muted" FontSize="12" TextWrapping="Wrap"/></StackPanel></DataTemplate></AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="{Binding SelectedWorkOrderLabel}" Classes="muted" TextWrapping="Wrap" />
+            <TextBlock Text="可输入工单号或名称搜索；从候选结果点选后自动加载用料。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border Classes="card" Padding="15">
+          <StackPanel Spacing="8">
+            <TextBlock Text="工单用料" Classes="card-title" />
+            <AutoCompleteBox ItemsSource="{Binding WorkOrderMaterials}" SelectedItem="{Binding SelectedIssueMaterial}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索用料名称或编码">
+                          <AutoCompleteBox.ItemTemplate>
+                            <DataTemplate>
+                              <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding Code}" Classes="muted" FontSize="12" />
+                                <TextBlock Text="{Binding RequiredQty, StringFormat='需求 {0}'}" Classes="muted" FontSize="12" />
+                              </StackPanel>
+                            </DataTemplate>
+                          </AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="{Binding SelectedIssueMaterial.Name}" Classes="muted" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border Classes="card" Padding="16">
+          <StackPanel Spacing="9">
+            <TextBlock Text="领料信息" Classes="card-title" />
+            <TextBlock Text="领料仓库" Classes="muted" FontSize="12" />
+            <AutoCompleteBox ItemsSource="{Binding WarehouseOptions}" SelectedItem="{Binding SelectedWarehouse}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索仓库">
+                          <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="本次领料数量" Classes="muted" FontSize="12" />
+            <TextBox Text="{Binding IssueQtyText}" PlaceholderText="输入数量" />
+            <StackPanel Spacing="4">
+              <TextBlock Text="库存批次 / 库位（必选）" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding InventoryStocks}" SelectedItem="{Binding SelectedIssueStock}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索批次或库位">
+                              <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+                            </AutoCompleteBox>
+            </StackPanel>
+            <TextBlock Text="{Binding InventoryHint}" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+            <TextBox Text="{Binding IssueRemark}" PlaceholderText="备注（选填）" />
+            <Button Content="保存并提交领料" Command="{Binding QueueMaterialIssueCommand}" IsEnabled="{Binding CanSubmitIssue}" MinHeight="50" />
+            <TextBlock Text="操作先持久化到离线队列；失败或结果未知时保留待核对，不自动重复过账。"
+                       Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Quality -->
+      <StackPanel IsVisible="{Binding IsQualityPage}" Spacing="12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="2"><TextBlock Text="质量检验" Classes="section-title"/><TextBlock Text="待处理检验单与判定结果" Classes="muted"/></StackPanel>
+          <Button Grid.Column="1" Content="刷新" Classes="secondary" Command="{Binding RefreshCurrentPageCommand}" VerticalAlignment="Center" />
+        </Grid>
+        <Border Classes="card" Padding="15">
+          <StackPanel Spacing="8">
+            <TextBlock Text="检验单列表" Classes="card-title" />
+            <AutoCompleteBox ItemsSource="{Binding Inspections}" SelectedItem="{Binding SelectedInspection}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索待检单号或来源">
+                          <AutoCompleteBox.ItemTemplate>
+                            <DataTemplate>
+                              <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding Code}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding SourceCode}" Classes="muted" FontSize="12" />
+                                <TextBlock Text="{Binding SampleQty, StringFormat='抽检量 {0}'}" Classes="muted" FontSize="12" />
+                              </StackPanel>
+                            </DataTemplate>
+                          </AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="{Binding SelectedInspectionLabel}" Classes="muted" TextWrapping="Wrap" />
+            <TextBlock Text="仅显示待检单；输入单号或来源单号检索后点选。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border Classes="card" Padding="16">
+          <StackPanel Spacing="10">
+            <StackPanel Spacing="3"><TextBlock Text="检验判定" Classes="card-title"/><TextBlock Text="合格数量与不合格数量须等于抽检量。" Classes="muted" FontSize="12"/></StackPanel>
+            <StackPanel Spacing="4">
+              <TextBlock Text="判定结果" Classes="muted" FontSize="12" />
+              <ComboBox ItemsSource="{Binding JudgeResultOptions}" SelectedItem="{Binding SelectedJudgeResult}" PlaceholderText="请选择判定结果">
+                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" /></DataTemplate></ComboBox.ItemTemplate>
+              </ComboBox>
+            </StackPanel>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+              <TextBox Text="{Binding JudgeQualifiedQtyText}" PlaceholderText="合格数量" />
+              <TextBox Grid.Column="1" Text="{Binding JudgeDefectQtyText}" PlaceholderText="不合格数量" />
+            </Grid>
+            <StackPanel Spacing="4">
+              <TextBlock Text="不良项目（选填）" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding DefectOptions}" SelectedItem="{Binding SelectedJudgeDefect}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索不良项目">
+                              <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+                            </AutoCompleteBox>
+            </StackPanel>
+            <TextBox Text="{Binding JudgeRemark}" PlaceholderText="判定备注（选填）" />
+            <Button Content="保存并提交判定" Command="{Binding QueueQualityJudgeCommand}" IsEnabled="{Binding CanSubmitJudge}" MinHeight="50" />
+            <TextBlock Text="判定通过异步任务处理；结果以服务端任务状态为准。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Maintenance tasks -->
+      <StackPanel IsVisible="{Binding IsMaintenancePage}" Spacing="12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="2"><TextBlock Text="设备维护" Classes="section-title"/><TextBlock Text="点检与保养任务" Classes="muted"/></StackPanel>
+          <Button Grid.Column="1" Content="刷新" Classes="secondary" Command="{Binding RefreshCurrentPageCommand}" VerticalAlignment="Center" />
+        </Grid>
+        <Border Classes="card" Padding="15">
+          <StackPanel Spacing="8">
+            <TextBlock Text="我的任务" Classes="card-title" />
+            <AutoCompleteBox ItemsSource="{Binding MaintenanceTasks}" SelectedItem="{Binding SelectedMaintenanceTask}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索任务号或设备">
+                          <AutoCompleteBox.ItemTemplate>
+                            <DataTemplate>
+                              <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding Code}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding Name}" Classes="muted" FontSize="12" />
+                                <TextBlock Text="{Binding EquipmentName}" Classes="muted" FontSize="12" />
+                              </StackPanel>
+                            </DataTemplate>
+                          </AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="{Binding SelectedTaskLabel}" Classes="muted" TextWrapping="Wrap" />
+            <TextBlock Text="仅显示待执行任务；输入任务编号或设备名称搜索。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border Classes="card" Padding="16">
+          <StackPanel Spacing="10">
+            <TextBlock Text="记录执行结果" Classes="card-title" />
+            <TextBlock Text="点检结果" Classes="muted" FontSize="12" />
+            <ComboBox ItemsSource="{Binding MaintenanceResultOptions}" SelectedItem="{Binding MaintenanceResult}" />
+            <TextBlock Text="费用（没有费用保持 0）" Classes="muted" FontSize="12" />
+            <TextBox Text="{Binding MaintenanceCostText}" PlaceholderText="输入金额" />
+            <TextBox Text="{Binding MaintenanceRemark}" PlaceholderText="异常说明或备注（选填）" />
+            <Button Content="保存并完成任务" Command="{Binding QueueMaintenanceExecutionCommand}" IsEnabled="{Binding CanSubmitMaintenance}" MinHeight="50" />
+            <TextBlock Text="提交后回读服务端任务状态，网络异常时保留本地记录供对账。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Repair orders -->
+      <StackPanel IsVisible="{Binding IsRepairPage}" Spacing="12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="2"><TextBlock Text="设备报修" Classes="section-title"/><TextBlock Text="新建报修并跟踪处理状态" Classes="muted"/></StackPanel>
+          <Button Grid.Column="1" Content="刷新" Classes="secondary" Command="{Binding RefreshCurrentPageCommand}" VerticalAlignment="Center" />
+        </Grid>
+        <Border Classes="card" Padding="15">
+          <StackPanel Spacing="8">
+            <TextBlock Text="维修单列表" Classes="card-title" />
+            <AutoCompleteBox ItemsSource="{Binding RepairOrders}" SelectedItem="{Binding SelectedRepairOrder}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索维修单号或设备">
+                          <AutoCompleteBox.ItemTemplate>
+                            <DataTemplate>
+                              <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding Code}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding EquipmentName}" Classes="muted" FontSize="12" />
+                                <TextBlock Text="{Binding FaultDesc}" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+                              </StackPanel>
+                            </DataTemplate>
+                          </AutoCompleteBox.ItemTemplate>
+                        </AutoCompleteBox>
+            <TextBlock Text="{Binding SelectedRepairOrderLabel}" Classes="muted" TextWrapping="Wrap" />
+            <TextBlock Text="输入单号或设备名称查找；已完成或关闭的单据只能查看。" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border Classes="card" Padding="16">
+          <StackPanel Spacing="9">
+            <TextBlock Text="新建报修" Classes="card-title" />
+            <StackPanel Spacing="4">
+              <TextBlock Text="故障设备" Classes="muted" FontSize="12" />
+              <AutoCompleteBox ItemsSource="{Binding EquipmentOptions}" SelectedItem="{Binding SelectedRepairEquipment}" ValueMemberBinding="{Binding DisplayText}" FilterMode="Contains" MinimumPrefixLength="0" MaxDropDownHeight="320" PlaceholderText="搜索设备编码或名称">
+                              <AutoCompleteBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayText}" /></DataTemplate></AutoCompleteBox.ItemTemplate>
+                            </AutoCompleteBox>
+            </StackPanel>
+            <TextBox Text="{Binding RepairFaultDescription}" PlaceholderText="故障描述" AcceptsReturn="True" MinHeight="76" />
+            <StackPanel Spacing="4">
+              <TextBlock Text="故障等级" Classes="muted" FontSize="12" />
+              <ComboBox ItemsSource="{Binding RepairLevelOptions}" SelectedItem="{Binding SelectedRepairLevel}" PlaceholderText="选择故障等级">
+                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" /></DataTemplate></ComboBox.ItemTemplate>
+              </ComboBox>
+            </StackPanel>
+            <Button Content="保存并创建报修单" Command="{Binding QueueRepairOrderCommand}" IsEnabled="{Binding CanCreateRepair}" MinHeight="50" />
+          </StackPanel>
+        </Border>
+        <Border IsVisible="{Binding CanHandleSelectedRepair}" Classes="card" Padding="16">
+          <StackPanel Spacing="9">
+            <TextBlock Text="处理维修单" Classes="card-title" />
+            <TextBox Text="{Binding RepairSolution}" PlaceholderText="维修方案" />
+            <StackPanel Spacing="4">
+              <TextBlock Text="处理后状态" Classes="muted" FontSize="12" />
+              <ComboBox ItemsSource="{Binding AvailableRepairStatusOptions}" SelectedItem="{Binding SelectedRepairStatus}">
+                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Label}" /></DataTemplate></ComboBox.ItemTemplate>
+              </ComboBox>
+            </StackPanel>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+              <TextBox Text="{Binding RepairCostText}" PlaceholderText="维修费用" />
+              <TextBox Grid.Column="1" Text="{Binding RepairDowntimeMinutesText}" PlaceholderText="停机分钟" />
+            </Grid>
+            <Button Content="保存并更新维修单" Command="{Binding QueueRepairHandleCommand}"
+                    IsEnabled="{Binding CanHandleSelectedRepair}" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Durable outbox -->
+      <Border IsVisible="{Binding IsLoggedIn}" Classes="card" Padding="12">
+        <Expander IsExpanded="False">
+          <Expander.Header>
+            <Grid ColumnDefinitions="*,Auto" MinHeight="42">
+              <TextBlock Text="离线任务与对账" Classes="card-title" VerticalAlignment="Center" />
+              <TextBlock Grid.Column="1" Text="{Binding QueueSummary}" Classes="muted" FontSize="12" VerticalAlignment="Center" />
+            </Grid>
+          </Expander.Header>
+          <StackPanel Spacing="9" Margin="0,8,0,0">
+            <TextBlock Text="失败或结果未知的命令不会自动重放；仅在服务端确认完成后移除本地记录。"
+                       Classes="muted" FontSize="12" TextWrapping="Wrap" />
+            <ItemsControl ItemsSource="{Binding OfflineCommands}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Background="#F7F9FC" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                          CornerRadius="14" Padding="12" Margin="0,0,0,8">
+                    <StackPanel Spacing="4">
+                      <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="{Binding Kind}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding State}" Grid.Column="1" Classes="muted" FontSize="12" />
+                      </Grid>
+                      <TextBlock Text="{Binding ServerStatus, StringFormat='服务端任务：{0}'}" Classes="muted" FontSize="12" />
+                      <TextBlock Text="{Binding LastError}" TextWrapping="Wrap" Foreground="#B54747" FontSize="12" />
+                      <Button Content="只读回查（不重放）" Classes="secondary"
+                              IsVisible="{Binding IsUnknownNeedsReconciliation}"
+                              Command="{Binding DataContext.ReconcileUnknownCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              CommandParameter="{Binding}" HorizontalAlignment="Left" />
+                      <TextBlock Text="{Binding CommandId, StringFormat='任务编号 {0}'}" Classes="muted" FontSize="12" TextWrapping="Wrap" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </Expander>
+      </Border>
+
+      <TextBlock Text="SMES · 制造现场协同" Classes="muted" FontSize="12"
+                 HorizontalAlignment="Center" Margin="0,4,0,0" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

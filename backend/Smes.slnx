@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Smes.Api/Smes.Api.csproj" />
+    <Project Path="src/Smes.Domain/Smes.Domain.csproj" />
+    <Project Path="src/Smes.Infrastructure/Smes.Infrastructure.csproj" />
+  </Folder>
+</Solution>

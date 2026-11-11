@@ -1,0 +1,9 @@
+﻿<Solution>
+  <Project Path="SmesMobile.Android/SmesMobile.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SmesMobile.Core/SmesMobile.Core.csproj" />
+  <Project Path="SmesMobile.Smoke/SmesMobile.Smoke.csproj" />
+  <Project Path="SmesMobile.Desktop/SmesMobile.Desktop.csproj" />
+  <Project Path="SmesMobile/SmesMobile.csproj" />
+</Solution>
